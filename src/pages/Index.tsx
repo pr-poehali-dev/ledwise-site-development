@@ -23,6 +23,21 @@ const Index = () => {
     setFormData({ name: '', phone: '', message: '' });
   };
 
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+    e.preventDefault();
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 bg-white border-b shadow-sm">
@@ -33,12 +48,12 @@ const Index = () => {
           </div>
           
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#catalog" className="text-foreground hover:text-primary transition-colors">Каталог</a>
-            <a href="#news" className="text-foreground hover:text-primary transition-colors">Новости</a>
-            <a href="#services" className="text-foreground hover:text-primary transition-colors">Услуги</a>
-            <a href="#projects" className="text-foreground hover:text-primary transition-colors">Проекты</a>
-            <a href="#about" className="text-foreground hover:text-primary transition-colors">О Компании</a>
-            <a href="#contacts" className="text-foreground hover:text-primary transition-colors">Контакты</a>
+            <a href="#catalog" onClick={(e) => scrollToSection(e, 'catalog')} className="text-foreground hover:text-primary transition-colors cursor-pointer">Каталог</a>
+            <a href="#news" onClick={(e) => scrollToSection(e, 'news')} className="text-foreground hover:text-primary transition-colors cursor-pointer">Новости</a>
+            <a href="#services" onClick={(e) => scrollToSection(e, 'services')} className="text-foreground hover:text-primary transition-colors cursor-pointer">Услуги</a>
+            <a href="#projects" onClick={(e) => scrollToSection(e, 'projects')} className="text-foreground hover:text-primary transition-colors cursor-pointer">Проекты</a>
+            <a href="#about" onClick={(e) => scrollToSection(e, 'about')} className="text-foreground hover:text-primary transition-colors cursor-pointer">О Компании</a>
+            <a href="#contacts" onClick={(e) => scrollToSection(e, 'contacts')} className="text-foreground hover:text-primary transition-colors cursor-pointer">Контакты</a>
           </nav>
 
           <div className="flex items-center gap-4">
