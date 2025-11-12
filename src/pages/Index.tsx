@@ -13,6 +13,11 @@ const Index = () => {
     phone: '',
     message: ''
   });
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [chatMessages, setChatMessages] = useState([
+    { role: 'bot', text: 'Здравствуйте! Я помогу вам с выбором освещения. Чем могу помочь?' }
+  ]);
+  const [chatInput, setChatInput] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,6 +41,26 @@ const Index = () => {
         behavior: 'smooth'
       });
     }
+  };
+
+  const handleChatSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!chatInput.trim()) return;
+
+    setChatMessages([...chatMessages, { role: 'user', text: chatInput }]);
+    
+    setTimeout(() => {
+      const responses = [
+        'Отлично! Давайте подберем оптимальное решение для вашего объекта.',
+        'Могу рассчитать экономию для вашего случая. Какая площадь помещения?',
+        'Рекомендую связаться с нашим специалистом для точного расчета. Оставьте заявку выше!',
+        'Для складов мы предлагаем светильники с IP65. Хотите узнать подробнее?'
+      ];
+      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+      setChatMessages(prev => [...prev, { role: 'bot', text: randomResponse }]);
+    }, 800);
+
+    setChatInput('');
   };
 
   return (
@@ -432,6 +457,68 @@ const Index = () => {
           </div>
         </div>
       </footer>
+
+      <div className="fixed bottom-6 right-6 z-50">
+        {isChatOpen && (
+          <Card className="w-80 md:w-96 mb-4 shadow-2xl animate-scale-in">
+            <CardHeader className="bg-primary text-white rounded-t-lg">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Icon name="Bot" size={24} />
+                  <CardTitle className="text-lg text-white">Помощник LEDWISE</CardTitle>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsChatOpen(false)}
+                  className="text-white hover:bg-primary-foreground/20"
+                >
+                  <Icon name="X" size={20} />
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent className="p-4 h-96 flex flex-col">
+              <div className="flex-1 overflow-y-auto mb-4 space-y-3">
+                {chatMessages.map((msg, idx) => (
+                  <div
+                    key={idx}
+                    className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                  >
+                    <div
+                      className={`max-w-[80%] rounded-lg px-4 py-2 ${
+                        msg.role === 'user'
+                          ? 'bg-primary text-white'
+                          : 'bg-secondary text-foreground'
+                      }`}
+                    >
+                      {msg.text}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <form onSubmit={handleChatSubmit} className="flex gap-2">
+                <Input
+                  placeholder="Напишите сообщение..."
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  className="flex-1"
+                />
+                <Button type="submit" size="icon">
+                  <Icon name="Send" size={20} />
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        )}
+
+        <Button
+          size="lg"
+          onClick={() => setIsChatOpen(!isChatOpen)}
+          className="rounded-full w-16 h-16 shadow-2xl hover:scale-110 transition-transform"
+        >
+          <Icon name={isChatOpen ? 'X' : 'MessageCircle'} size={28} />
+        </Button>
+      </div>
     </div>
   );
 };
