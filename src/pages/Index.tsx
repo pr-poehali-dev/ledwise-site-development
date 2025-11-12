@@ -91,7 +91,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <h2 className="text-3xl md:text-4xl font-bold text-destructive">
+              <h2 className="text-3xl md:text-4xl font-bold text-primary">
                 Вы теряете деньги на устаревшем освещении?
               </h2>
               <ul className="space-y-4">
@@ -103,7 +103,7 @@ const Index = () => {
                   'Риск штрафов за несоблюдение норм'
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-start gap-3">
-                    <Icon name="AlertCircle" size={24} className="text-destructive flex-shrink-0 mt-1" />
+                    <Icon name="AlertCircle" size={24} className="text-primary flex-shrink-0 mt-1" />
                     <span className="text-lg">{item}</span>
                   </li>
                 ))}
